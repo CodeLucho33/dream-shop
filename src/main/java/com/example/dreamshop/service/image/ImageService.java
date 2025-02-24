@@ -66,7 +66,7 @@ public class ImageService implements IImageService {
                 throw new RuntimeException(e.getMessage());
             }
         }
-return savedImagesDto;
+                return savedImagesDto;
     }
 
     @Override
