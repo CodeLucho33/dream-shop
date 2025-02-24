@@ -1,7 +1,7 @@
 package com.example.dreamshop.service.category;
 
 import com.example.dreamshop.exceptions.ResourceNotFoundException;
-import com.example.dreamshop.exceptions.alreadyExistsException;
+import com.example.dreamshop.exceptions.AlreadyExistsException;
 import com.example.dreamshop.model.Category;
 import com.example.dreamshop.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +35,7 @@ public class CategoryService implements ICategoryService {
     public Category addCategory(Category category) {
         return Optional.of(category).filter(c -> !categoryRepository.existsByName(c.getName()))
                 .map(categoryRepository ::save ).
-                orElseThrow(()-> new alreadyExistsException(category.getName()+ "Already exists!"));
+                orElseThrow(()-> new AlreadyExistsException(category.getName()+ "Already exists!"));
     }
 
     @Override
