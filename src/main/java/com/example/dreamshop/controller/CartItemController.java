@@ -5,6 +5,7 @@ package com.example.dreamshop.controller;
 import com.example.dreamshop.exceptions.ResourceNotFoundException;
 import com.example.dreamshop.response.ApiResponse;
 import com.example.dreamshop.service.cart.ICartItemService;
+import com.example.dreamshop.service.cart.ICartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @RequestMapping("${api.prefix}/cartItems")
 public class CartItemController {
     private final ICartItemService cartItemService;
+    private final ICartService cartService;
 
     @PostMapping("/item/add")
     public ResponseEntity<ApiResponse> addItemToCart(@RequestParam Long cartId,
@@ -23,6 +25,9 @@ public class CartItemController {
                                                      @RequestParam Integer quantity) {
 
         try {
+            if(cartId == null) {
+                cartId  = cartService.initializeNewCart();
+            }
             cartItemService.addItemToCart(cartId, productId, quantity);
             return ResponseEntity.ok(new ApiResponse("Add Item Success", null));
         } catch (ResourceNotFoundException e) {
@@ -49,6 +54,7 @@ public class CartItemController {
                                                           @RequestParam Integer quantity) {
 
         try {
+
             cartItemService.updateItemQuantity(cartId, itemId, quantity);
             return ResponseEntity.ok(new ApiResponse("Update Item Success", null));
         } catch (ResourceNotFoundException e) {
