@@ -52,4 +52,9 @@ private final AtomicLong cartIdGenerator = new AtomicLong(0);
         Cart savedCart = cartRepository.save(newCart);
         return savedCart.getId();
     }
+
+    @Override
+    public Cart getCartByUserId(Long userId) {
+        return cartRepository.findByUserId(userId);
+    }
 }
