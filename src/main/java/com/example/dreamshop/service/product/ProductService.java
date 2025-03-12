@@ -2,6 +2,7 @@ package com.example.dreamshop.service.product;
 
 import com.example.dreamshop.dto.ImageDto;
 import com.example.dreamshop.dto.ProductDto;
+import com.example.dreamshop.exceptions.AlreadyExistsException;
 import com.example.dreamshop.exceptions.ProductNotFoundException;
 import com.example.dreamshop.exceptions.ResourceNotFoundException;
 import com.example.dreamshop.model.Category;
@@ -17,7 +18,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +35,11 @@ public class ProductService implements IProductService {
         // If Yes, set it as the new product category
         // If No, the save it as a new category
         // The set as the new product category.
+
+
+        if (productExists(request.getBrand(), request.getName())) {
+            throw new AlreadyExistsException(request.getBrand()+ "Already exists this product");
+        }
 
         Category category = categoryRepository.findByName(request.getCategory().getName());
         if (category == null) {
@@ -53,6 +59,9 @@ public class ProductService implements IProductService {
              category
      );
 
+    }
+    private boolean productExists(String name, String brand) {
+        return productRepository.existsByNameAndBrand(name,brand);
     }
 
     @Override

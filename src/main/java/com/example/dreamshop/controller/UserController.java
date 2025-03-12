@@ -8,7 +8,7 @@ import com.example.dreamshop.request.CreateUserRequest;
 import com.example.dreamshop.request.UserUpdateRequest;
 import com.example.dreamshop.response.ApiResponse;
 import com.example.dreamshop.service.user.IUserService;
-import com.example.dreamshop.service.user.UserService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

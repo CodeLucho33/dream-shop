@@ -10,11 +10,9 @@ import com.example.dreamshop.model.Product;
 import com.example.dreamshop.repository.OrderRepository;
 import com.example.dreamshop.repository.ProductRepository;
 
-import com.example.dreamshop.response.ApiResponse;
 import com.example.dreamshop.service.cart.CartService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -96,7 +94,8 @@ public class OrderService implements IOrderService {
 
     }
 
-    private OrderDto convertToDto(Order order) {
+    @Override
+    public OrderDto convertToDto(Order order) {
         return modelMapper.map(order, OrderDto.class);
     }
 }
