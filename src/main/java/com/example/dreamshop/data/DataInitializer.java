@@ -4,6 +4,7 @@ import com.example.dreamshop.model.Role;
 import com.example.dreamshop.model.User;
 import com.example.dreamshop.repository.RoleRepository;
 import com.example.dreamshop.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Set;
 
+@Transactional
 @Component
 @RequiredArgsConstructor
 public class DataInitializer implements ApplicationListener<ApplicationReadyEvent> {
@@ -22,9 +24,9 @@ private final RoleRepository roleRepository;
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
         Set<String> defaultRoles = Set.of("ROLE_USER", "ROLE_ADMIN");
-       // createDefaultUserIfNotExists();
+        createDefaultUserIfNotExists();
         createDefaultRoleIfNotExists(defaultRoles);
-         //createDefaultUserIfNotExists();
+        createDefaultAdminIfNotExists();
 
     }
 
@@ -71,7 +73,6 @@ private final RoleRepository roleRepository;
     public boolean supportsAsyncExecution() {
         return ApplicationListener.super.supportsAsyncExecution();
     }
-
     private void createDefaultRoleIfNotExists(Set<String> roles) {
         roles.stream()
                 .filter(role-> roleRepository.findByName(role).isEmpty())
